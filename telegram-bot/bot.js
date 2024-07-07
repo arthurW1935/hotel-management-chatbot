@@ -12,13 +12,19 @@ bot.help((ctx) => ctx.reply('You can ask me about available rooms or book a room
 
 bot.on('text', async (ctx) => {
     const message = ctx.message.text;
-    const response = await fetch('http://localhost:3000/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: message })
-    });
-    const data = await response.json();
-    ctx.reply(data.message);
+    try{
+        const response = await fetch('http://localhost:3000/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
+        });
+        const data = await response.json();
+        ctx.reply(data.message);
+    }
+    catch(err){
+        console.log(err);
+        ctx.reply('Sorry, I am unable to assist you at the moment. Please try again later.');
+    }
 });
 
 bot.launch();

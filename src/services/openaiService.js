@@ -21,17 +21,18 @@ const getChatbotResponse = async (message, conversationHistory) => {
     ];
     
     const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
         messages: allMessages,
         tools: tools,
         tool_choice: "auto"
     });
 
     const responseMessage = response.choices[0].message;
-    console.log(response.choices[0].finish_reason);
     allMessages.push(responseMessage);
+    console.log(responseMessage);
 
     if (responseMessage.tool_calls){
+        // console.log(responseMessage.tool_calls);
         const tool_calls = responseMessage.tool_calls;
         const tool_call_id = tool_calls[0].id;
         const tool_function_name = tool_calls[0].function.name;
@@ -48,7 +49,7 @@ const getChatbotResponse = async (message, conversationHistory) => {
             });
 
             const responseAfterToolCall = await openai.chat.completions.create({
-                model: "gpt-3.5-turbo",
+                model: "gpt-4",
                 messages: [
                     {role: "system", content: systemPrompt},
                     ...allMessages
@@ -72,7 +73,7 @@ const getChatbotResponse = async (message, conversationHistory) => {
             });
 
             const responseAfterToolCall = await openai.chat.completions.create({
-                model: "gpt-3.5-turbo",
+                model: "gpt-4",
                 messages: allMessages
             });
 
