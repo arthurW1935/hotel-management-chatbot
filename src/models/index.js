@@ -2,8 +2,8 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: 'database.sqlite', // or specify a file for persistent storage
-    logging: false // disable logging; default: console.log
+    storage: 'database.sqlite', 
+    logging: false
 });
 
 const Conversation = sequelize.define('Conversation', {

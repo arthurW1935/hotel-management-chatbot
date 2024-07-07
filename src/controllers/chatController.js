@@ -4,22 +4,24 @@ const { getRoomOptions, bookRoom } = require('../services/bookingService');
 
 const getHistory = async (req, res) => {
     const conversationHistory = await Conversation.findAll();
-    res.json(conversationHistory);
+    let conversationData = [];
+    conversationHistory.forEach(conv => {
+        conversationData.push({role: "user", content: conv.userMessage});
+        conversationData.push({role: "assistant", content: conv.botResponse});
+    });
+    res.json(conversationData);
 }
 
 const handleChat = async (req, res) => {
     const userMessage = req.body.message;
     const conversationHistory = await Conversation.findAll();
+    let conversationData = [];
+    conversationHistory.forEach(conv => {
+        conversationData.push({role: "user", content: conv.userMessage});
+        conversationData.push({role: "assistant", content: conv.botResponse});
+    });
 
-    const botResponse = await getChatbotResponse(userMessage, conversationHistory.map(conv => ({
-        role: "user",
-        content: conv.userMessage
-    })).concat(conversationHistory.map(conv => ({
-        role: "assistant",
-        content: conv.botResponse
-    }))));
-
-    // Save to conversation history
+    const botResponse = await getChatbotResponse(userMessage, conversationData);
     await Conversation.create({ userMessage, botResponse });
 
     res.json({ message: botResponse });

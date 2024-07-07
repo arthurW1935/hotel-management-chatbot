@@ -1,0 +1,39 @@
+[
+    {
+        "type": "function",
+        "function": {
+            "name": "bookRoom",
+            "description": "Book a room for a guest. This function books a room for a guest. You need to provide the room ID, guest's full name, email, and the number of nights to book the room for. The function returns the booking confirmation details. The parameters must be JSON encoded.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "roomId": {
+                        "type": "number",
+                        "description": "The room id to book according to the room options.The user will select the room from the room options provided by the getRoomOptions function. "
+                    },
+                    "fullName": {
+                        "type": "string",
+                        "description": "The full name of the guest"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "The email of the guest"
+                    },
+                    "nights": {
+                        "type": "number",
+                        "description": "The number of nights to book the room for"
+                    }
+                }
+            },
+            "required" : ["roomId", "fullName", "email", "nights"]
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "getRoomOptions",
+            "description": "Get the available room options. This function returns a list of rooms that are available to book. You can get all the information of the rooms from this function. This function does not book a room, and hence must not be called when you want to book a room."
+        },
+        "required" : []
+    }
+]
